@@ -13,7 +13,7 @@ const fs             = require("fs");
 const path           = require("path");
 
 // Lambda Handler
-exports.handler = (event, context) => {
+exports.handler = (event, context, callback) => {
     const s3Object   = event.Records[0].s3;
     const configPath = path.resolve(__dirname, "config.json");
     const processor  = new ImageProcessor(s3Object);
@@ -25,14 +25,14 @@ exports.handler = (event, context) => {
     .then((processedImages) => {
         var message = "OK, " + processedImages + " images were processed.";
         console.log(message);
-        context.succeed(message);
+        callback(null, message);
     })
     .catch((messages) => {
         if ( messages === "Object was already processed." ) {
             console.log("Image already processed");
-            context.succeed("Image already processed");
+            callback(null, "Image already processed");
         } else {
-            context.fail("Error processing " + s3Object.object.key + ": " + messages);
+            callback("Error processing " + s3Object.object.key + ": " + messages);
         }
     });
 };
