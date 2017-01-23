@@ -4,6 +4,7 @@
   "description": "An AWS Lambda Function to resize/reduce images automatically",
   "scripts": {
     "test": "ava",
+    "deploy": "claudia --profile claudia",
     "postinstall": "[ -f config.json ] || cp config.json.sample config.json"
   },
   "keywords": [
@@ -20,8 +21,10 @@
   },
   "devDependencies": {
     "ava": "^0.17.0",
+    "claudia": "2.6.0",
     "pify": "^2.3.0",
-    "sinon": "^1.17.2"
+    "sinon": "^1.17.2",
+    "thaumaturgy": "0.5.0"
   },
   "directories": {
     "test": "test"
